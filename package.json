@@ -48,7 +48,6 @@
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
-  "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
