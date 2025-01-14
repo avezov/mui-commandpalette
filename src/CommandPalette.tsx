@@ -1,5 +1,5 @@
 import { JSX, useRef, useState } from 'react';
-import groupBy from 'lodash/groupBy';
+import groupBy from 'lodash/groupBy.js';
 import { useHotkeys } from '@xvii/usehooks';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,8 +8,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { ListSubheader } from '@mui/material';
 
 export type Command = {
   action: () => void
