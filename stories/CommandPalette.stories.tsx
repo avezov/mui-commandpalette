@@ -28,6 +28,10 @@ export const Primary: Story = {
         label: 'Форточки',
         name: 'fortochka',
       },
+      {
+        label: 'Страницы',
+        name: 'pages',
+      },
     ],
     commands: [
       {
@@ -53,6 +57,27 @@ export const Primary: Story = {
         label: 'Закрыть форточку',
         action: action('closeFortochka'),
         group: 'fortochka'
+      },
+
+      {
+        group: 'pages',
+        label: 'Список офферов',
+        name: 'offers',
+        action: action('/offers'),
+      },
+
+      {
+        group: 'pages',
+        label: 'Авторизация',
+        name: 'login',
+        action: action('/login'),
+      },
+
+      {
+        group: 'pages',
+        label: 'Регистрация',
+        name: 'registration',
+        action: action('/registration/webmaster'),
       },
     ],
   },

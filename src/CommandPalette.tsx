@@ -1,15 +1,15 @@
 import { JSX, useRef, useState } from 'react';
 import groupBy from 'lodash/groupBy.js';
 import { useHotkeys } from '@xvii/usehooks';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import Dialog, { DialogProps } from '@mui/material/Dialog/index.js';
+import DialogContent from '@mui/material/DialogContent/index.js';
+import DialogTitle from '@mui/material/DialogTitle/index.js';
+import List from '@mui/material/List/index.js';
+import ListItem from '@mui/material/ListItem/index.js';
+import ListItemButton from '@mui/material/ListItemButton/index.js';
+import ListItemText from '@mui/material/ListItemText/index.js';
+import ListSubheader from '@mui/material/ListSubheader/index.js';
+import TextField, { TextFieldProps } from '@mui/material/TextField/index.js';
 
 export type Command = {
   action: () => void
@@ -37,6 +37,8 @@ export function CommandPalette({
 }: CommandPaletteProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
+
+  /** @todo filter commands by searchText */
   const selectedCommand = commands[selectedIndex]
   const [searchText, setSearchText] = useState<string>()
   const commandsByGroup = groupBy(commands, 'group')
@@ -70,8 +72,11 @@ export function CommandPalette({
           variant="outlined"
           onBlur={() => setSelectedIndex(-1)}
           onFocus={() => setSelectedIndex(0)}
-          onChange={(evt) => setSearchText(evt.target.value)}
           {...TextFieldProps}
+          onChange={(evt) => {
+            TextFieldProps?.onChange?.(evt)
+            setSearchText(evt.target.value)
+          }}
         />
       </DialogTitle>
       <DialogContent
@@ -85,7 +90,7 @@ export function CommandPalette({
             <>
               <ListSubheader>{group.label}</ListSubheader>
               {commandsByGroup[group.name]
-                .filter(command => searchText
+                ?.filter(command => searchText
                   ? command.label.toLowerCase().includes(searchText.toLowerCase())
                   : true
                 )
