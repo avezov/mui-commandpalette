@@ -1,4 +1,4 @@
-import { JSX, useRef, useState } from 'react';
+import { JSX, useEffect, useRef, useState } from 'react';
 import groupBy from 'lodash/groupBy.js';
 import { useHotkeys } from '@xvii/usehooks';
 import Dialog, { DialogProps } from '@mui/material/Dialog/index.js';
@@ -37,16 +37,20 @@ export function CommandPalette({
 }: CommandPaletteProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
-
-  /** @todo filter commands by searchText */
-  const selectedCommand = commands[selectedIndex]
   const [searchText, setSearchText] = useState<string>()
   const commandsByGroup = groupBy(commands, 'group')
+  const filteredCommands = commands
+    .filter(command => searchText
+      ? command.label.toLowerCase().includes(searchText.toLowerCase())
+      : true)
+
+  /** @todo filter commands by searchText */
+  const selectedCommand = filteredCommands[selectedIndex]
 
   useHotkeys([
     {
       key: 'ArrowDown',
-      callback: () => setSelectedIndex(index => index + 1 > commands.length - 1 ? commands.length - 1 : index + 1),
+      callback: () => setSelectedIndex(index => index + 1 > filteredCommands.length - 1 ? filteredCommands.length - 1 : index + 1),
     },
     {
       key: 'ArrowUp',
@@ -57,6 +61,12 @@ export function CommandPalette({
       callback: selectedCommand?.action
     }
   ], inputRef.current)
+
+  useEffect(() => {
+    setSelectedIndex(0)
+  }, [
+    searchText
+  ])
 
   return (
     <Dialog
